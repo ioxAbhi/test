@@ -1,20 +1,29 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from ioxabhi import app
 from pyrogram import *
 from pyrogram.types import *
 from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputGroupCall
-from ioxabhi.utils.database import get_assistant
 from telethon.tl.functions.phone import (
     CreateGroupCallRequest,
     DiscardGroupCallRequest,
     GetGroupCallRequest,
     InviteToGroupCallRequest,
 )
+import aiohttp
+import re
 
+# Import your main app properly - you need to adjust this based on your project structure
+try:
+    from ASTA_MUSIC import app
+except ImportError:
+    # If ASTA_MUSIC is not found, try a different approach
+    # You might need to adjust this based on your actual project structure
+    import sys
+    sys.path.append('/app')
+    from ASTA_MUSIC import app
 
 # vc on
 @app.on_message(filters.video_chat_started)
