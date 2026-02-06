@@ -8,16 +8,44 @@ from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputGroupCall
 import aiohttp
 import re
+import sys
+import os
 
-# Import your main app properly - you need to adjust this based on your project structure
+# Add the parent directory to the Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+
+# Try different import approaches
 try:
-    from ASTA_MUSIC import app
+    # Try importing from AnonXMusic first
+    from AnonXMusic import app
+    print("✓ Imported app from AnonXMusic")
 except ImportError:
-    # If ASTA_MUSIC is not found, try a different approach
-    # You might need to adjust this based on your actual project structure
-    import sys
-    sys.path.append('/app')
-    from ASTA_MUSIC import app
+    try:
+        # Try importing from the root directory
+        import AnonXMusic
+        app = AnonXMusic.app
+        print("✓ Imported app via AnonXMusic module")
+    except ImportError:
+        try:
+            # Try importing directly
+            import __main__
+            app = __main__.app
+            print("✓ Imported app from __main__")
+        except AttributeError:
+            # Last resort: create Client instance if needed
+            print("⚠ Could not import app, you may need to pass it as parameter")
+            app = None
+
+# If app is still None, you'll need to handle this in your deployment
+if app is None:
+    # This is a fallback - you should configure your app properly
+    from pyrogram import Client
+    app = Client(
+        "my_bot",
+        api_id=123456,  # Replace with your actual values
+        api_hash="your_api_hash",  # Replace with your actual values
+        bot_token="your_bot_token"  # Replace with your actual values
+    )
 
 # vc on
 @app.on_message(filters.video_chat_started)
@@ -102,7 +130,5 @@ async def search(event):
                     continue
                 result += f"{title}\n{link}\n\n"
             
-            # Since Button is not defined (it was from telethon), let's use InlineKeyboardMarkup instead
-            # Or you can remove the buttons entirely if you don't need them
             await msg.edit(result, reply_markup=None)
             await session.close()
