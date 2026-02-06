@@ -71,10 +71,9 @@ async def brah3(app: app, message: Message):
             if user.first_name:
                 name = user.first_name
             elif user.username:
-                name = f"@{message.from_user.mention if message.from_user else "Someone"}"
-            
-            # Clickable mention banayein sirf first name se
-            mention = f"[{name}](tg://user?id={user.id})"
+                name = f"@{message.from_user.mention if message.from_user else "Someone"}
+                
+
             invited_users.append(mention)
         except Exception as e:
             print(f"Error processing user: {e}")
