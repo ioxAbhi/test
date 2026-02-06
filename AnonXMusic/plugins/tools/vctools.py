@@ -50,13 +50,13 @@ if app is None:
 # vc on
 @app.on_message(filters.video_chat_started)
 async def brah(_, msg):
-    await msg.reply("**😍ᴠɪᴅᴇᴏ ᴄʜᴀᴛ sᴛᴀʀᴛᴇᴅ🥳**")
+    await msg.reply("😍 ᴠɪᴅєᴏ ᴄʜατ ѕταʀτєᴅ 🥳")
 
 
 # vc off
 @app.on_message(filters.video_chat_ended)
 async def brah2(_, msg):
-    await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
+    await msg.reply(" 😕ᴠɪᴅєᴏ ᴄʜατ єηᴅєᴅ 💔")
 
 
 # invite members on vc - FIXED VERSION
@@ -85,9 +85,9 @@ async def brah3(app: app, message: Message):
     if invited_users:
         # Sabhi users ko ek line mein space ke saath
         users_text = " ".join(invited_users)
-        text = f"➻ {inviter}\n\n**๏ ɪɴᴠɪᴛɪɴɢ ɪɴ ᴠᴄ ᴛᴏ :**\n\n{users_text}"
+        text = f"➻ {inviter}\n\n๏ ɪηᴠɪτɪηg ɪη ᴠᴄ τᴏ :\n\n{users_text}"
     else:
-        text = f"➻ {inviter}\n\n**๏ ɪɴᴠɪᴛɪᴏɴ ᴘᴀᴛᴀ ɴᴀʜɪ ᴄʜᴀʟᴀ :(**"
+        text = f"➻ {inviter}\n\n๏ ɪηᴠɪτɪᴏη ρατα ηαʜɪ ᴄʜαʟα :("
 
     try:
         await message.reply(
