@@ -71,9 +71,7 @@ async def brah3(app: app, message: Message):
             if user.first_name:
                 name = user.first_name
             elif user.username:
-                name = f"@{user.username}"
-            else:
-                name = f"User {user.id}"
+                name = f"@{user.username.mention}"
             
             # Clickable mention banayein sirf first name se
             mention = f"[{name}](tg://user?id={user.id})"
