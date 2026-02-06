@@ -6,12 +6,6 @@ from config import OWNER_ID
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputGroupCall
-from telethon.tl.functions.phone import (
-    CreateGroupCallRequest,
-    DiscardGroupCallRequest,
-    GetGroupCallRequest,
-    InviteToGroupCallRequest,
-)
 import aiohttp
 import re
 
@@ -107,8 +101,8 @@ async def search(event):
                     # remove duplicates
                     continue
                 result += f"{title}\n{link}\n\n"
-            prev_and_next_btns = [
-                Button.inline("▶️Next▶️", data=f"next {start+10} {event.text.split()[1]}")
-            ]
-            await msg.edit(result, link_preview=False, buttons=prev_and_next_btns)
+            
+            # Since Button is not defined (it was from telethon), let's use InlineKeyboardMarkup instead
+            # Or you can remove the buttons entirely if you don't need them
+            await msg.edit(result, reply_markup=None)
             await session.close()
