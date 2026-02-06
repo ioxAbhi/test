@@ -59,33 +59,48 @@ async def brah2(_, msg):
     await msg.reply("**😕ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ💔**")
 
 
-# invite members on vc
+# invite members on vc - FIXED VERSION
 @app.on_message(filters.video_chat_members_invited)
 async def brah3(app: app, message: Message):
-    text = f"➻ {message.from_user.mention}\n\n**๏ ɪɴᴠɪᴛɪɴɢ ɪɴ ᴠᴄ ᴛᴏ :**\n\n**➻ **"
-    x = 0
+    inviter = message.from_user.mention if message.from_user else "Someone"
+    
+    invited_users = []
     for user in message.video_chat_members_invited.users:
         try:
-            text += f"[{user.first_name}](tg://user?id={user.id}) "
-            x += 1
-        except Exception:
-            pass
+            # Sirf FIRST NAME use karo (last name nahi)
+            if user.first_name:
+                name = user.first_name
+            elif user.username:
+                name = f"@{user.username}"
+            else:
+                name = f"User {user.id}"
+            
+            # Clickable mention banayein sirf first name se
+            mention = f"[{name}](tg://user?id={user.id})"
+            invited_users.append(mention)
+        except Exception as e:
+            print(f"Error processing user: {e}")
+            continue
+
+    if invited_users:
+        # Sabhi users ko ek line mein space ke saath
+        users_text = " ".join(invited_users)
+        text = f"➻ {inviter}\n\n**๏ ɪɴᴠɪᴛɪɴɢ ɪɴ ᴠᴄ ᴛᴏ :**\n\n{users_text}"
+    else:
+        text = f"➻ {inviter}\n\n**๏ ɪɴᴠɪᴛɪᴏɴ ᴘᴀᴛᴀ ɴᴀʜɪ ᴄʜᴀʟᴀ :(**"
 
     try:
-        invite_link = await app.export_chat_invite_link(message.chat.id)
-        add_link = f"https://t.me/{app.username}?startgroup=true"
-        reply_text = f"{text} 🤭🤭"
-
         await message.reply(
-            reply_text,
+            text,
             reply_markup=InlineKeyboardMarkup(
                 [
-                    [InlineKeyboardButton(text="๏ ᴊᴏɪɴ ᴠᴄ ๏", url=add_link)],
+                    [InlineKeyboardButton(text="๏ ᴊᴏɪɴ ᴠᴄ ๏", url=f"https://t.me/{app.username}?startgroup=true")],
                 ]
             ),
+            disable_web_page_preview=True  # Link preview disable karega
         )
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error sending message: {e}")
 
 
 ####
